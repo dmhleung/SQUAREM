@@ -225,27 +225,27 @@ p.inter <- rep(NA, length(par)+1)
 while (feval < maxiter) {
 	extrap <- TRUE
 	p1 <- try(fixptfn(par, ...),silent=TRUE)
-	print(paste("p1 is ", as.numeric(p1)))
+	print(paste("p1 is ", Reduce(paste, p1)))
 	feval <- feval + 1
 	if (inherits(p1, "try-error") | any(is.nan(unlist(p1)))) break
 	q1 <- p1 - par
-	print(paste("q1 is ", as.numeric(q1)))
+	print(paste("q1 is ", Reduce(paste, q1)))
 	sr2 <- crossprod(q1)
-	print(paste("sr2 is ", as.numeric(sr2)))
+	print(paste("sr2 is ", Reduce(paste, sr2)))
 	p.inter <- rbind(p.inter, c(par, sqrt(sr2)))
 	if (sqrt(sr2) < tol) {par <- p1; break}
 
 	p2 <- try(fixptfn(p1, ...),silent=TRUE)
-	print(paste("p2 is ", as.numeric(p2)))
+	print(paste("p2 is ", Reduce(paste, p2)))
 	feval <- feval + 1
 	if (inherits(p2, "try-error") | any(is.nan(unlist(p2)))) break
 	q2 <- p2 - p1
-	print(paste("q2 is ", as.numeric(q2)))
+	print(paste("q2 is ", Reduce(paste, q2)))
 	sq2 <- sqrt(crossprod(q2))
 	res <- sq2
 	if (sq2 < tol) {par <- p2; break}
 	sv2 <- crossprod(q2-q1)
-	print(paste("sv2 is ", as.numeric(sv2)))
+	print(paste("sv2 is ", Reduce(paste, sv2)))
 	srv <- crossprod(q1, q2-q1)	
 
 	alpha <- switch(method, -srv/sv2, -sr2/srv, sqrt(sr2/sv2)) 
